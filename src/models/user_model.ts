@@ -1,8 +1,13 @@
 export interface role
 {
     Administrator: string;
+    administrator: string;
+    Admin: string;
+    ADMIN: string;
     Manager: string;
+    manager: string;
     Member: string;
+    member: string;
 }
 
 export interface User
