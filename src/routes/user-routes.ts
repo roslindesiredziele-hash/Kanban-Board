@@ -4,7 +4,13 @@ import { db } from "../db";
 
 export const userRouterDb = Router();
 
-userRouterDb.get('/', async (req: Request, res: Response) => {
+userRouterDb.get('/', async (req: Request, res: Response) => 
+{
     const userList = await db.all<UserDb[]>('SELECT id, name, email, usename, passwordhash, role FROM user ORDER BY role');
     res.json(userList);
-})
+});
+
+userRouterDb.get('/:id', async (req: Request, res: Response) => 
+{
+    
+});
