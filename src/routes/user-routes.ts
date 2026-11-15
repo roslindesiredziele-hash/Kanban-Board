@@ -7,7 +7,7 @@ export const userRouterDb = Router();
 
 userRouterDb.get('/', async (req: Request, res: Response) => 
 {
-    const userList = await db.all<UserDb[]>('SELECT id, name, email, usename, passwordhash, role FROM users ORDER BY role');
+    const userList = await db.all<UserDb[]>('SELECT id, name, email, username, passwordHash, role FROM users ORDER BY role');
     res.json(userList);
 });
 
@@ -21,7 +21,7 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
         res.status(400).json({error: `worng id requested: ${req.params.id}`});
     }else 
     {
-        const user = await db .get<UserDb>('SELECT id, name, email, usename, passwordhash, role FROM users WHERE id = ?', num);
+        const user = await db .get<UserDb>('SELECT id, name, email, username, passwordHash, role FROM users WHERE id = ?', num);
         if(!user)
         {
             res.status(400).json({error: `user with id ${num} not found`});
@@ -34,11 +34,11 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
 
 userRouterDb.post('/', async (req: Request, res: Response) =>
 {
-    const{name, email, username, passwordhash, role} = req.body;
+    const{name, email, username, passwordHash, role} = req.body;
 
     const usrs = await db.get<UserDb>(
         'INSERT INTO users (name, email, username, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, username, passwordHash, role',
-        [name, email, username, passwordhash, role]
+        [name, email, username, passwordHash, role]
     );
 
     res.status(201).json(usrs);
