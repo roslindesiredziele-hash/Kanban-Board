@@ -1,0 +1,27 @@
+{
+  "name": "kanban-board",
+  "version": "1.0.0",
+  "description": " Kanban board application built with Angular, Express.js, SQLite and TypeScript",
+  "keywords": [
+    "kanban",
+    "typescript",
+    "angular",
+    "express",
+    "sqlite"
+  ],
+  "homepage": "https://github.com/roslindesiredziele-hash/Kanban-Board#readme",
+  "bugs": {
+    "url": "https://github.com/roslindesiredziele-hash/Kanban-Board/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roslindesiredziele-hash/Kanban-Board.git"
+  },
+  "license": "ISC",
+  "author": "Desire Roslin Dziele",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
