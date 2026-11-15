@@ -12,5 +12,11 @@ userRouterDb.get('/', async (req: Request, res: Response) =>
 
 userRouterDb.get('/:id', async (req: Request, res: Response) => 
 {
-    
+    const num = Number(req.params.id);
+
+    if(!Number.isInteger(num) || num < 0)
+    {
+        console.log(`wrong id requested: ${req.params.id}`);
+        res.status(400).json({error: `worng id requested: ${req.params.id}`});
+    }
 });
