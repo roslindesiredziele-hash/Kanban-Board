@@ -25,6 +25,9 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
         if(!user)
         {
             res.status(400).json({error: `user with id ${num} not found`});
-        } 
+        } else
+        {
+            res.json(user);
+        }
     }
 });
