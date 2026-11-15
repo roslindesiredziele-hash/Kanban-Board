@@ -1,14 +1,12 @@
-export interface Role
-{
-    Administrator: string;
-    administrator: string;
-    Admin: string;
-    ADMIN: string;
-    Manager: string;
-    manager: string;
-    Member: string;
-    member: string;
-}
+export type Role =
+    'Administrator'
+    'administrator'
+    'Admin'
+    'ADMIN'
+    'Manager'
+    'manager'
+    'Member'
+    'member';
 
 export interface User
 {
