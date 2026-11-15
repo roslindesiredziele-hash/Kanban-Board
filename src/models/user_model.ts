@@ -1,4 +1,4 @@
-export interface role
+export interface Role
 {
     Administrator: string;
     administrator: string;
@@ -16,7 +16,7 @@ export interface User
     email: string;
     username: string;
     passwordHash: string;
-    role: string;
+    role: Role;
 }
 
 export interface UserDb extends User
