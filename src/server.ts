@@ -4,7 +4,7 @@ import { Express, Request, Response } from "express";
 import { userRouterDb } from "./routes/user-routes.ts";
 
 const app: Express = express();
-const port: Number = 2001;
+const port: number = 2001;
 
 app.use(express.json());
 app.use(morgan("dev"));
