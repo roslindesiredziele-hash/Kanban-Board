@@ -1,7 +1,6 @@
 import { Router, Request, Response } from "express";
-import { User, UserDb } from "../models/user_model.ts";
+import { UserDb } from "../models/user_model.ts";
 import { db } from "../db.ts";
-import { json } from "node:stream/consumers";
 
 export const userRouterDb = Router();
 
