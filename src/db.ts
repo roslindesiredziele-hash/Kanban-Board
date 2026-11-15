@@ -9,11 +9,12 @@ export const db = await open(
 );
 
 await db.exec(`
-    CREATE TABLE IF NOT EXISTS User(
-    IDENTIFIER user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    CREATE TABLE IF NOT EXISTS users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEZT NOT NULL,
     email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     passwordHash TEXT NOT NULL,
-    role TEXT,
-    )`)
+    role TEXT
+    )
+    `)
