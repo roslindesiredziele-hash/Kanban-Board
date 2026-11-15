@@ -31,6 +31,14 @@
     "sqlite3": "^6.0.1"
   },
   "allowScripts": {
-    "sqlite3@6.0.1": true
+    "sqlite3@6.0.1": true,
+    "esbuild@0.28.2": true
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^26.6.6",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
   }
 }
