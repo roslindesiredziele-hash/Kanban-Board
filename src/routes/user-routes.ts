@@ -14,7 +14,7 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
 {
     const num = Number(req.params.id);
 
-    if(!Number.isInteger(num) || num < 0)
+    if(!Number.isInteger(num) || num <= 0)
     {
         console.log(`wrong id requested: ${req.params.id}`);
         res.status(400).json({error: `worng id requested: ${req.params.id}`});
@@ -23,7 +23,7 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
         const user = await db .get<UserDb>('SELECT id, name, email, username, passwordHash, role FROM users WHERE id = ?', num);
         if(!user)
         {
-            res.status(400).json({error: `user with id ${num} not found`});
+            res.status(404).json({error: `user with id ${num} not found`});
         } else
         {
             res.json(user);
