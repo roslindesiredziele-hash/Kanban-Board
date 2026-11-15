@@ -6,3 +6,5 @@ import { UserDb } from "./models/user_model";
 
 const app: Express = express();
 const port: Number = 2001;
+
+app.use(express.json());
