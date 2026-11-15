@@ -16,5 +16,5 @@ app.use('/api/users', userRouterDb);
 
 app.listen(port, () =>
 {
-    console.log(`My server is running at http://localhost:${port}`);
+    console.log(`My server is running at http://localhost:${port}api/users`);
 });
