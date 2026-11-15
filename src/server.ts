@@ -10,5 +10,6 @@ const port: Number = 2001;
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.static("./public"));
 
 app.use('/api/users', userRouterDb);
