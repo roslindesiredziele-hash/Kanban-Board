@@ -15,6 +15,6 @@ await db.exec(`
     email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     passwordHash TEXT NOT NULL,
-    role TEXT
+    role TEXT NOT NULL
     )
     `)
