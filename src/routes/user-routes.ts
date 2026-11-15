@@ -31,3 +31,15 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
         }
     }
 });
+
+userRouterDb.post('/', async (req: Request, res: Response) =>
+{
+    const{name, email, username, passwordhash, role} = req.body;
+
+    const usrs = await db.get<UserDb>(
+        'INSERT INTO users (name, email, username, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, username, passwordHash, role',
+        [name, email, username, passwordhash, role]
+    );
+
+    res.status(201).json(usrs);
+});
