@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { User, UserDb } from "../models/user_model";
 import { db } from "../db";
+import { json } from "node:stream/consumers";
 
 export const userRouterDb = Router();
 
@@ -18,5 +19,12 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
     {
         console.log(`wrong id requested: ${req.params.id}`);
         res.status(400).json({error: `worng id requested: ${req.params.id}`});
+    }else 
+    {
+        const user = await db .get<UserDb>('SELECT id, name, email, usename, passwordhash, role FROM user WHERE id = ?', num);
+        if(!user)
+        {
+            res.status(400).json({error: `user with id ${num} not found`});
+        } 
     }
 });
