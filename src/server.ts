@@ -13,3 +13,8 @@ app.use(morgan("dev"));
 app.use(express.static("./public"));
 
 app.use('/api/users', userRouterDb);
+
+app.listen(port, () =>
+{
+    console.log(`My server is running at http://localhost:${port}`);
+});
