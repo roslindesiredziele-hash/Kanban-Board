@@ -40,7 +40,7 @@ await db.exec(`
     CREATE TABLE IF NOT EXISTS project_members(
     project_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
-    role TEXT NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('Owner', 'Manager', 'Member')),
 
     PRIMARY KEY (project_id, user_id),
     FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
