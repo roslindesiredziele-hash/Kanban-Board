@@ -13,3 +13,8 @@ export interface Project
     endDate: Date;
     ownerId: number;
 }
+
+export interface ProjectDb extends Project
+{
+    id: number;
+}
