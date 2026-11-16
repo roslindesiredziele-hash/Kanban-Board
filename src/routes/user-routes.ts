@@ -96,5 +96,7 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
         return;
     }
 
+    const {name, email, username, passwordHash, role} = req.body;
+
     
 });
