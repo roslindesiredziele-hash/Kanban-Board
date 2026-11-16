@@ -23,8 +23,8 @@ await db.exec(`
     CREATE TABLE IF NOT EXISTS project_members(
     project_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
-    FOREIGN KEY (project_id) REFERENCE projects(id),
-    FOREIGN KEY (user_id) REFERENCE users(id),
+    FOREIGN KEY (project_id) REFERENCES projects(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
     role TEXT NOT NULL
     )
     `)
@@ -38,6 +38,6 @@ await db.exec(`
     start_date TEXT NOT NULL,
     end_DATE TEXT NOT NULL,
     owner_id INTEGER NOT NULL
-    FOREIGN KEY (owner_id) REFERENCE users(id)
+    FOREIGN KEY (owner_id) REFERENCES users(id)
     )
     `)
