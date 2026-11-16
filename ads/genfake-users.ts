@@ -38,6 +38,8 @@ for (let i = 0; i < count; i++)
 
     const role = generateRole();
 
+    const passwordHash = await bcrypt.hash('Password123!', 10);
+
     await db.run(
         `
         INSERT INTO users
@@ -54,7 +56,7 @@ for (let i = 0; i < count; i++)
             `${firstName} ${lastName}`,
             email,
             username,
-            'fake_password_hash',
+            passwordHash,,
             role
         ]
     );
