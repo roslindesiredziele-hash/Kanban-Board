@@ -1,20 +1,22 @@
 ## Kanban Board
 
-Kanban Board is a full-stack project being developed as part of the Web Application Development course. The goal of the project is to build a lightweight project management system that allows users to collaborate on projects, manage tasks, and track work using a Kanban-style workflow.
+Kanban Board is a full-stack project being developed as part of the Web Application Development course. The goal of the project is to provide a lightweight project management platform where users can collaborate on projects, organize work using a Kanban workflow, and track task progress.
 
-This repository currently contains the initial backend foundation of the application.
+The repository currently contains the first backend module of the application focused on user management.
 
 ### Current Progress
 
-The following components have been implemented:
+Implemented:
 
-- Project initialization using TypeScript and Node.js
 - SQLite database integration
-- Initial database schema creation
+- Express.js backend
 - User domain model
+- User database schema
+- User validation
+- User role management
 - User API routes
-- Express.js server setup
-- Role-based user model
+- Faker-based user data generation
+- bcrypt password hashing for generated users
 
 ### Current Backend Structure
 
@@ -28,7 +30,7 @@ src/
 └── server.ts
 
 ads/
-└── (reserved for data generation scripts)
+└── genfake-users.ts
 
 data/
 └── app.sqlite3
@@ -36,9 +38,7 @@ data/
 
 ### User Model
 
-The first domain entity implemented in the project is the `User`.
-
-Current attributes:
+Current user attributes:
 
 - id
 - name
@@ -47,32 +47,73 @@ Current attributes:
 - passwordHash
 - role
 
+### Roles
+
 Supported roles:
 
-- ADMIN
-- PROJECT_MANAGER
-- MEMBER
+- Administrator
+- Manager
+- Member
+
+### Validation Rules
+
+Users must satisfy the following requirements:
+
+#### Name
+
+- Required
+- Must be a non-empty string
+
+#### Email
+
+- Required
+- Must be a non-empty string
+- Must match standard email format
+
+#### Username
+
+- Required
+- Length between 3 and 20 characters
+- Allowed characters:
+  - letters
+  - digits
+  - `.`
+  - `_`
+  - `-`
+
+#### Password Hash
+
+- Required
+- Must be a non-empty string
+
+#### Role
+
+Must be one of:
+
+- Administrator
+- Manager
+- Member
 
 ### Database
 
-SQLite is used as the persistence layer.
+SQLite is used for persistence.
 
 Current tables:
 
 #### users
 
-| Column | Description |
+| Column | Constraints |
 |----------|----------|
-| id | Primary key |
-| name | User display name |
-| email | Unique email address |
-| username | Unique username |
-| passwordHash | Stored password hash |
-| role | User role |
+| id | Primary Key, Auto Increment |
+| name | NOT NULL |
+| email | NOT NULL, UNIQUE |
+| username | NOT NULL, UNIQUE |
+| passwordHash | NOT NULL |
+| role | NOT NULL |
 
 ### Implemented API Endpoints
 
-#### Users
+#### Get all users
 
 ```http
 GET /api/users
@@ -80,17 +121,45 @@ GET /api/users
 
 Returns all users.
 
+#### Get user by ID
+
 ```http
 GET /api/users/:id
 ```
 
-Returns a single user by identifier.
+Returns a specific user.
+
+#### Create user
 
 ```http
 POST /api/users
 ```
 
-Creates a new user.
+Creates a new user after validation.
+
+### Fake User Generation
+
+Generate sample users:
+
+```bash
+npm run gfu
+```
+
+Generate a custom number of users:
+
+```bash
+npm run gfu -- 100
+```
+
+Generated users are distributed as:
+
+```text
+10% Administrators
+30% Managers
+60% Members
+```
+
+User passwords are hashed using bcrypt before being stored in the database.
 
 ### Technologies
 
@@ -98,23 +167,25 @@ Creates a new user.
 - Node.js
 - Express.js
 - SQLite
+- Faker
+- bcrypt
 - Morgan
 
 ### Planned Next Steps
 
-- User input validation
-- Faker-based sample data generation
-- Automated API testing
-- Additional domain entities:
-  - Project
-  - Task
-  - Comment
-  - Label
-- Authentication and authorization
+- Complete User CRUD
+- Project entity
+- Project membership management
+- Boards and columns
+- Tasks
+- Comments
+- Authentication
+- Authorization
+- Automated testing
 - Angular frontend
 
 ### Status
 
 🚧 Work in Progress
 
-The current implementation represents the initial backend architecture and database design phase of the project. Additional entities, validation, testing, and frontend functionality will be introduced incrementally following a domain-first development approach.
+The current implementation represents the first backend module of the application. Additional entities and business functionality will be introduced incrementally following a domain-first development approach.
