@@ -8,6 +8,8 @@ export const db = await open(
 }
 );
 
+await db.exec('PRAGMA foreign_keys = ON');
+
 await db.exec(`
     CREATE TABLE IF NOT EXISTS users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -20,16 +22,6 @@ await db.exec(`
     `)
 
 await db.exec(`
-    CREATE TABLE IF NOT EXISTS project_members(
-    project_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
-    FOREIGN KEY (project_id) REFERENCES projects(id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    role TEXT NOT NULL
-    )
-    `)
-
-await db.exec(`
     CREATE TABLE IF NOT EXISTS projects(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
@@ -37,7 +29,17 @@ await db.exec(`
     status TEXT NOT NULL,
     start_date TEXT NOT NULL,
     end_DATE TEXT NOT NULL,
-    owner_id INTEGER NOT NULL
+    owner_id INTEGER NOT NULL,
     FOREIGN KEY (owner_id) REFERENCES users(id)
+    )
+    `)
+
+await db.exec(`
+    CREATE TABLE IF NOT EXISTS project_members(
+    project_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (project_id) REFERENCES projects(id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    role TEXT NOT NULL
     )
     `)
