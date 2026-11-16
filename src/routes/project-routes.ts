@@ -1,11 +1,4 @@
-function validateProject(
-    name: unknown,
-    description: unknown,
-    status: unknown,
-    startDate: unknown,
-    endDate: unknown,
-    ownerId: unknown
-): string | null
+function validateProject(name: unknown, description: unknown, status: unknown, startDate: unknown, endDate: unknown, ownerId: unknown): string | null
 {
     if (
         typeof name !== 'string' ||
