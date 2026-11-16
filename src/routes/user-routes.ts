@@ -6,7 +6,7 @@ export const userRouterDb = Router();
 
 userRouterDb.get('/', async (req: Request, res: Response) => 
 {
-    const userList = await db.all<UserDb[]>('SELECT id, name, email, username, passwordHash, role FROM users ORDER BY role');
+    const userList = await db.all<UserDb[]>('SELECT id, name, email, username, role FROM users ORDER BY role');
     res.json(userList);
 });
 
@@ -20,7 +20,7 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
         res.status(400).json({error: `worng id requested: ${req.params.id}`});
     }else 
     {
-        const user = await db .get<UserDb>('SELECT id, name, email, username, passwordHash, role FROM users WHERE id = ?', num);
+        const user = await db .get<UserDb>('SELECT id, name, email, username, role FROM users WHERE id = ?', num);
         if(!user)
         {
             res.status(404).json({error: `user with id ${num} not found`});
