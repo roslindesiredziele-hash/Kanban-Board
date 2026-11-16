@@ -126,4 +126,14 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
             role
         `,
         [name, email, cleanedUsername, passwordHash, role, num]);
+        
+        if (!updatedUser)
+    {
+        res.status(404).json({
+            error: `user with id ${num} not found`
+        });
+        return;
+    }
+
+    res.json(updatedUser);
 });
