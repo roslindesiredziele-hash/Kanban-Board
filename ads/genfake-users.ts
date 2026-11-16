@@ -62,3 +62,11 @@ for (let i = 0; i < managerCount; i++)
     );
 }
 
+for (let i = 0; i < memberCount; i++)
+{
+    await createUser(
+        'Member',
+        index++
+    );
+}
+
