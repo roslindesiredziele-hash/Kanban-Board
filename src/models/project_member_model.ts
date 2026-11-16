@@ -3,4 +3,9 @@ type ProjectMemberRole =
     | 'Manager'
     | 'Member';
 
-    
+export interface ProjectMember
+{
+    projectId: number;
+    userId: number;
+    role: ProjectMemberRole;
+}
