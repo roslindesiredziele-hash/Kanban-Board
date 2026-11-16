@@ -1,6 +1,7 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, response } from "express";
 import { UserDb } from "../models/user_model.ts";
 import { db } from "../db.ts";
+import { request } from "node:http";
 
 export const userRouterDb = Router();
 
@@ -81,4 +82,11 @@ userRouterDb.post('/', async (req: Request, res: Response) =>
     );
 
     res.status(201).json(user);
+});
+
+userRouterDb.put('/', async (req: Request, res: Response) =>
+{
+    const num = Number(req.params.id);
+
+    
 });
