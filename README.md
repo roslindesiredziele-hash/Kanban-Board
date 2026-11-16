@@ -1,8 +1,8 @@
 ## Kanban Board
 
-Kanban Board is a full-stack project being developed as part of the Web Application Development course. The goal of the project is to provide a lightweight project management platform where users can collaborate on projects, organize work using a Kanban workflow, and track task progress.
+Kanban Board is a full-stack project being developed as part of the Web Application Development course. The goal of the project is to provide a lightweight project management platform where users can collaborate on projects, manage memberships, organize work, and ultimately track tasks using a Kanban workflow.
 
-The repository currently contains the first backend module of the application focused on user management.
+The repository currently contains the backend foundation of the application, including user management, project management, relational database design, validation, and sample data generation.
 
 ### Current Progress
 
@@ -11,21 +11,29 @@ Implemented:
 - SQLite database integration
 - Express.js backend
 - User domain model
-- User database schema
+- Project domain model
+- Project membership model
+- Role-based access foundation
 - User validation
-- User role management
-- User API routes
-- Faker-based user data generation
-- bcrypt password hashing for generated users
+- Project validation
+- Faker-based user generation
+- bcrypt password hashing for generated accounts
+- User CRUD API
+- Project CRUD API
+- Foreign key relationships
+- Database-level CHECK constraints
 
 ### Current Backend Structure
 
 ```text
 src/
 ├── models/
-│   └── user_model.ts
+│   ├── user_model.ts
+│   ├── project_model.ts
+│   └── project_member_model.ts
 ├── routes/
-│   └── user-routes.ts
+│   ├── user-routes.ts
+│   └── project-routes.ts
 ├── db.ts
 └── server.ts
 
@@ -36,9 +44,11 @@ data/
 └── app.sqlite3
 ```
 
-### User Model
+### Domain Model
 
-Current user attributes:
+#### User
+
+Attributes:
 
 - id
 - name
@@ -47,99 +57,122 @@ Current user attributes:
 - passwordHash
 - role
 
-### Roles
-
 Supported roles:
 
 - Administrator
 - Manager
 - Member
 
-### Validation Rules
+#### Project
 
-Users must satisfy the following requirements:
+Attributes:
 
-#### Name
+- id
+- name
+- description
+- status
+- startDate
+- endDate
+- ownerId
 
-- Required
-- Must be a non-empty string
+Supported statuses:
 
-#### Email
+- Active
+- Pending
+- Completed
+- Archived
 
-- Required
-- Must be a non-empty string
-- Must match standard email format
+#### ProjectMember
 
-#### Username
+Represents membership between users and projects.
 
-- Required
-- Length between 3 and 20 characters
-- Allowed characters:
-  - letters
-  - digits
-  - `.`
-  - `_`
-  - `-`
+Attributes:
 
-#### Password Hash
+- projectId
+- userId
+- role
 
-- Required
-- Must be a non-empty string
+Supported membership roles:
 
-#### Role
-
-Must be one of:
-
-- Administrator
+- Owner
 - Manager
 - Member
 
-### Database
-
-SQLite is used for persistence.
+### Database Design
 
 Current tables:
 
 #### users
 
-| Column | Constraints |
-|----------|----------|
-| id | Primary Key, Auto Increment |
-| name | NOT NULL |
-| email | NOT NULL, UNIQUE |
-| username | NOT NULL, UNIQUE |
-| passwordHash | NOT NULL |
-| role | NOT NULL |
+- Unique email addresses
+- Unique usernames
+- Role constraint
+
+#### projects
+
+- Project ownership
+- Status constraint
+- Date consistency validation
+- Foreign key to users
+
+#### project_members
+
+- Many-to-many relationship between users and projects
+- Composite primary key
+- Membership role constraint
+- Cascading cleanup
 
 ### Implemented API Endpoints
 
-#### Get all users
+#### Users
 
 ```http
-GET /api/users
+GET    /api/users
+GET    /api/users/:id
+
+POST   /api/users
+
+PUT    /api/users/:id
+
+DELETE /api/users/:id
+DELETE /api/users
 ```
 
-Returns all users.
-
-#### Get user by ID
+#### Projects
 
 ```http
-GET /api/users/:id
+GET    /api/projects
+GET    /api/projects/:id
+
+POST   /api/projects
+
+PUT    /api/projects/:id
+
+DELETE /api/projects/:id
+DELETE /api/projects
 ```
 
-Returns a specific user.
+### Validation
 
-#### Create user
+#### User Validation
 
-```http
-POST /api/users
-```
+- Name must be provided
+- Email format validation
+- Username format and length validation
+- Password hash validation
+- Role validation
 
-Creates a new user after validation.
+#### Project Validation
 
-### Fake User Generation
+- Project name validation
+- Description validation
+- Status validation
+- Date validation
+- Owner validation
 
-Generate sample users:
+### Sample Data Generation
+
+Generate fake users:
 
 ```bash
 npm run gfu
@@ -151,7 +184,7 @@ Generate a custom number of users:
 npm run gfu -- 100
 ```
 
-Generated users are distributed as:
+Generated accounts use:
 
 ```text
 10% Administrators
@@ -159,7 +192,7 @@ Generated users are distributed as:
 60% Members
 ```
 
-User passwords are hashed using bcrypt before being stored in the database.
+Passwords are hashed using bcrypt before storage.
 
 ### Technologies
 
@@ -173,19 +206,18 @@ User passwords are hashed using bcrypt before being stored in the database.
 
 ### Planned Next Steps
 
-- Complete User CRUD
-- Project entity
-- Project membership management
-- Boards and columns
-- Tasks
+- Project membership endpoints
+- Task entity
+- Labels
 - Comments
 - Authentication
 - Authorization
-- Automated testing
+- Automated API testing
 - Angular frontend
+- Kanban board interface
 
 ### Status
 
 🚧 Work in Progress
 
-The current implementation represents the first backend module of the application. Additional entities and business functionality will be introduced incrementally following a domain-first development approach.
+The current implementation provides the foundational backend architecture for the Kanban Board system. The core user and project modules are implemented, while membership management, task management, authentication, automated testing, and frontend functionality remain under active development.
