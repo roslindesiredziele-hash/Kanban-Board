@@ -41,7 +41,7 @@ function validateProject(name: unknown, description: unknown, status: unknown, s
 
 projectRouterDb.get('/', async (req: Request, res: Response) => 
 {
-    const projectList = await db.all<ProjectDb[]>('SELECT id, name, email, projectname, role FROM projects ORDER BY role');
+    const projectList = await db.all<ProjectDb[]>('SELECT id, name, description, status, startDate, endDate, ownerId FROM projects ORDER BY ownerId');
     res.json(projectList);
 });
 
@@ -55,7 +55,7 @@ projectRouterDb.get('/:id', async (req: Request, res: Response) =>
         res.status(400).json({error: `wrong id requested: ${req.params.id}`});
     }else 
     {
-        const project = await db .get<ProjectDb>('SELECT id, name, email, projectname, role FROM projects WHERE id = ?', num);
+        const project = await db .get<ProjectDb>('SELECT id, name, description, status, startDate, endDate, ownerId FROM projects WHERE id = ?', num);
         if(!project)
         {
             res.status(404).json({error: `project with id ${num} not found`});
@@ -81,7 +81,7 @@ projectRouterDb.post('/', async (req: Request, res: Response) =>
  const cleanedname = name.trim();
 
     const project = await db.get<ProjectDb>(
-        'INSERT INTO projects (name, description, status, startDate, endDate, ownerId) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, projectname, role',
+        'INSERT INTO projects (name, description, status, startDate, endDate, ownerId) VALUES (?, ?, ?, ?, ?) RETURNING id, name, description, status, startDate, endDate, ownerId',
         [name, description, status, startDate, endDate, ownerId]
     );
 
@@ -117,17 +117,13 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
         UPDATE projects
         SET
             name = ?,
-            email = ?,
-            projectname = ?,
-            passwordHash = ?,
-            role = ?
+            description = ?,
+            status = ?,
+            startDate = ?,
+            endDate = ?,
+            ownerId = ?
         WHERE id = ?
-        RETURNING
-            id,
-            name,
-            email,
-            projectname,
-            role
+        RETURNING id, name, description, status, startDate, endDate, ownerId
         `,
         [name, description, status, startDate, endDate, ownerId, num]);
         
@@ -156,12 +152,7 @@ projectRouterDb.delete('/:id', async (req: Request, res: Response) =>
 
     const project = await db.get<ProjectDb>(
         `
-        SELECT
-            id,
-            name,
-            email,
-            projectname,
-            role
+        SELECT name, description, status, startDate, endDate, ownerId
         FROM projects
         WHERE id = ?
         `,
