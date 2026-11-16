@@ -53,3 +53,12 @@ for (let i = 0; i < adminCount; i++)
         index++
     );
 }
+
+for (let i = 0; i < managerCount; i++)
+{
+    await createUser(
+        'Manager',
+        index++
+    );
+}
+
