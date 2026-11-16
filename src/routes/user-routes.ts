@@ -88,5 +88,13 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
 {
     const num = Number(req.params.id);
 
+     if (!Number.isInteger(num) || num <= 0)
+    {
+        res.status(400).json({
+            error: `wrong id requested: ${req.params.id}`
+        });
+        return;
+    }
+
     
 });
