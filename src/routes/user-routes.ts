@@ -17,7 +17,7 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
     if(!Number.isInteger(num) || num <= 0)
     {
         console.log(`wrong id requested: ${req.params.id}`);
-        res.status(400).json({error: `worng id requested: ${req.params.id}`});
+        res.status(400).json({error: `wrong id requested: ${req.params.id}`});
     }else 
     {
         const user = await db .get<UserDb>('SELECT id, name, email, username, role FROM users WHERE id = ?', num);
@@ -64,9 +64,8 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
 userRouterDb.post('/', async (req: Request, res: Response) =>
 {
     const{name, email, username, passwordHash, role} = req.body;
-    const cleanedUsername = username.trim();
 
-    const error = validateUser(name, email, cleanedUsername, passwordHash, role);
+    const error = validateUser(name, email, username, passwordHash, role);
 
     if (error)
 {
@@ -74,9 +73,11 @@ userRouterDb.post('/', async (req: Request, res: Response) =>
     return;
 }
 
+ const cleanedUsername = username.trim();
+
     const usrs = await db.get<UserDb>(
-        'INSERT INTO users (name, email, username, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, username, passwordHash, role',
-        [name, email, username, passwordHash, role]
+        'INSERT INTO users (name, email, cleanedUsername, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, cleanedUsername, role',
+        [name, email, cleanedUsername, passwordHash, role]
     );
 
     res.status(201).json(usrs);
