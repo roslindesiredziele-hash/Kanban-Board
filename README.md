@@ -1,10 +1,12 @@
-## Kanban Board
+# Kanban Board
 
-Kanban Board is a full-stack project being developed as part of the Web Application Development course. The goal of the project is to provide a lightweight project management platform where users can collaborate on projects, manage memberships, organize work, and ultimately track tasks using a Kanban workflow.
+Kanban Board is a full-stack project being developed as part of the Web Application Development course. The goal of the project is to provide a lightweight project management platform where users can collaborate on projects, manage memberships, organize work, and track progress using a Kanban-style workflow.
 
-The repository currently contains the backend foundation of the application, including user management, project management, relational database design, validation, and sample data generation.
+The repository currently contains the foundational backend implementation, including database design, domain modeling, validation, CRUD operations, and sample data generation.
 
-### Current Progress
+---
+
+## Current Progress
 
 Implemented:
 
@@ -13,17 +15,22 @@ Implemented:
 - User domain model
 - Project domain model
 - Project membership model
-- Role-based access foundation
+- User role management
+- Project status management
+- Database-level integrity constraints
 - User validation
 - Project validation
 - Faker-based user generation
 - bcrypt password hashing for generated accounts
-- User CRUD API
-- Project CRUD API
+- Complete User CRUD API
+- Complete Project CRUD API
 - Foreign key relationships
-- Database-level CHECK constraints
+- Project ownership support
+- Project membership schema
 
-### Current Backend Structure
+---
+
+## Current Backend Structure
 
 ```text
 src/
@@ -44,9 +51,11 @@ data/
 └── app.sqlite3
 ```
 
-### Domain Model
+---
 
-#### User
+## Domain Model
+
+### User
 
 Attributes:
 
@@ -63,7 +72,9 @@ Supported roles:
 - Manager
 - Member
 
-#### Project
+---
+
+### Project
 
 Attributes:
 
@@ -82,7 +93,9 @@ Supported statuses:
 - Completed
 - Archived
 
-#### ProjectMember
+---
+
+### ProjectMember
 
 Represents membership between users and projects.
 
@@ -98,33 +111,94 @@ Supported membership roles:
 - Manager
 - Member
 
-### Database Design
+---
 
-Current tables:
+## Database Design
 
-#### users
+### users
+
+Stores registered users.
+
+Constraints:
 
 - Unique email addresses
 - Unique usernames
-- Role constraint
+- Role validation through CHECK constraints
 
-#### projects
+---
 
-- Project ownership
-- Status constraint
-- Date consistency validation
-- Foreign key to users
+### projects
 
-#### project_members
+Stores project information.
 
-- Many-to-many relationship between users and projects
-- Composite primary key
-- Membership role constraint
-- Cascading cleanup
+Constraints:
 
-### Implemented API Endpoints
+- Foreign key ownership relationship
+- Valid project status values
+- Project date consistency (`end_date >= start_date`)
+- Owner must reference an existing user
 
-#### Users
+---
+
+### project_members
+
+Represents the many-to-many relationship between users and projects.
+
+Constraints:
+
+- Composite primary key (`project_id`, `user_id`)
+- Membership role validation
+- Automatic cleanup through cascading deletes
+
+---
+
+## Entity Relationship Overview
+
+```text
+User
+ │
+ │ 1:N (owner)
+ ▼
+Project
+ ▲
+ │
+ │ N:M
+ ▼
+ProjectMember
+```
+
+A user can own multiple projects.
+
+A project can contain multiple users.
+
+A user can belong to multiple projects.
+
+---
+
+## Validation
+
+### User Validation
+
+- Name must be provided
+- Email format validation
+- Username format validation
+- Username length validation
+- Password hash validation
+- Role validation
+
+### Project Validation
+
+- Project name validation
+- Description validation
+- Status validation
+- Date validation
+- Owner validation
+
+---
+
+## Implemented API Endpoints
+
+### Users
 
 ```http
 GET    /api/users
@@ -138,7 +212,9 @@ DELETE /api/users/:id
 DELETE /api/users
 ```
 
-#### Projects
+---
+
+### Projects
 
 ```http
 GET    /api/projects
@@ -152,25 +228,9 @@ DELETE /api/projects/:id
 DELETE /api/projects
 ```
 
-### Validation
+---
 
-#### User Validation
-
-- Name must be provided
-- Email format validation
-- Username format and length validation
-- Password hash validation
-- Role validation
-
-#### Project Validation
-
-- Project name validation
-- Description validation
-- Status validation
-- Date validation
-- Owner validation
-
-### Sample Data Generation
+## Sample Data Generation
 
 Generate fake users:
 
@@ -184,7 +244,7 @@ Generate a custom number of users:
 npm run gfu -- 100
 ```
 
-Generated accounts use:
+Generated users follow a deterministic role distribution:
 
 ```text
 10% Administrators
@@ -194,7 +254,9 @@ Generated accounts use:
 
 Passwords are hashed using bcrypt before storage.
 
-### Technologies
+---
+
+## Technologies
 
 - TypeScript
 - Node.js
@@ -204,7 +266,9 @@ Passwords are hashed using bcrypt before storage.
 - bcrypt
 - Morgan
 
-### Planned Next Steps
+---
+
+## Planned Next Steps
 
 - Project membership endpoints
 - Task entity
@@ -212,12 +276,41 @@ Passwords are hashed using bcrypt before storage.
 - Comments
 - Authentication
 - Authorization
-- Automated API testing
+- API testing
 - Angular frontend
 - Kanban board interface
+- Drag-and-drop task management
 
-### Status
+---
+
+## Status
 
 🚧 Work in Progress
 
-The current implementation provides the foundational backend architecture for the Kanban Board system. The core user and project modules are implemented, while membership management, task management, authentication, automated testing, and frontend functionality remain under active development.
+The current implementation provides the foundational backend architecture of the Kanban Board system. User management, project management, validation, database design, project ownership, project membership modeling, and sample data generation have been implemented.
+
+Task management, authentication, authorization, automated testing, and frontend functionality remain under active development.
+
+---
+
+## Learning Goals
+
+This project is being developed incrementally with a domain-first approach. Each entity is fully modeled, validated, persisted, and exposed through REST APIs before introducing new business functionality.
+
+Current workflow:
+
+```text
+Entity
+    ↓
+Model
+    ↓
+Database Schema
+    ↓
+Validation
+    ↓
+CRUD API
+    ↓
+Sample Data
+```
+
+This approach promotes a clear separation of concerns, maintainable architecture, and a better understanding of database-driven application development.
