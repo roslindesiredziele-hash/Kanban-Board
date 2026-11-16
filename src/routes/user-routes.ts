@@ -38,7 +38,7 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
         return 'wrong name';
     }
 
-    if(typeof email !== 'string' || email.trim() === '')
+    if(typeof email !== 'string' || email.trim() === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
     {
         return 'wrong email';
     }
