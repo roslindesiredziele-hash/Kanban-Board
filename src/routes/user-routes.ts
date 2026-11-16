@@ -98,5 +98,7 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
 
     const {name, email, username, passwordHash, role} = req.body;
 
+    const error = validateUser(name, email, username, passwordHash, role);
+
     
 });
