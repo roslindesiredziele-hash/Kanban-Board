@@ -41,7 +41,7 @@ function validateProject(name: unknown, description: unknown, status: unknown, s
 
 projectRouterDb.get('/', async (req: Request, res: Response) => 
 {
-    const projectList = await db.all<ProjectDb[]>('SELECT id, name, description, status, start_date, end_date, owner_id FROM projects ORDER BY name');
+    const projectList = await db.all<ProjectDb[]>('SELECT id, name, description, status, start_date AS startDate, end_date AS endDate, owner_id AS ownerId FROM projects ORDER BY name');
     res.json(projectList);
 });
 
@@ -55,7 +55,7 @@ projectRouterDb.get('/:id', async (req: Request, res: Response) =>
         res.status(400).json({error: `wrong id requested: ${req.params.id}`});
     }else 
     {
-        const project = await db .get<ProjectDb>('SELECT id, name, description, status, start_date, end_date, owner_id FROM projects WHERE id = ?', num);
+        const project = await db .get<ProjectDb>('SELECT id, name, description, status, start_date AS startDate, end_date AS endDate, owner_id AS ownerId FROM projects WHERE id = ?', num);
         if(!project)
         {
             res.status(404).json({error: `project with id ${num} not found`});
