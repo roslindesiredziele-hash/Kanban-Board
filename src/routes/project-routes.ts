@@ -79,7 +79,7 @@ projectRouterDb.post('/', async (req: Request, res: Response) =>
 }
 
     const project = await db.get<ProjectDb>(
-        'INSERT INTO projects (name, description, status, start_date, end_date, owner_id) VALUES (?, ?, ?, ?, ?, ?) RETURNING id, name, description, status, start_date, end_date, owner_id',
+        'INSERT INTO projects (name, description, status, start_date, end_date, owner_id) VALUES (?, ?, ?, ?, ?, ?) RETURNING id, name, description, status, start_date AS startDate, end_date AS endDate, owner_id AS ownerId',
         [name, description, status, start_date, end_date, owner_id]
     );
 
@@ -119,7 +119,7 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
             end_date = ?,
             owner_id = ?
         WHERE id = ?
-        RETURNING id, name, description, status, start_date, end_date, owner_id
+        RETURNING id, name, description, status, start_date AS startDate, end_date AS endDate, owner_id AS ownerId
         `,
         [name, description, status, start_date, end_date, owner_id, num]);
         
@@ -148,7 +148,7 @@ projectRouterDb.delete('/:id', async (req: Request, res: Response) =>
 
     const project = await db.get<ProjectDb>(
         `
-        SELECT name, description, status, start_date, end_date, owner_id
+        SELECT name, description, status, start_date AS startDate, end_date AS endDate, owner_id AS ownerId
         FROM projects
         WHERE id = ?
         `,
