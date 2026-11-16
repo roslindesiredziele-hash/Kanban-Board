@@ -4,7 +4,7 @@ import { db } from "../db.ts";
 
 export const projectRouterDb = Router();
 
-function validateProject(name: unknown, description: unknown, status: unknown, startDate: unknown, endDate: unknown, ownerId: unknown): string | null
+function validateProject(name: unknown, description: unknown, status: unknown, start_date: unknown, end_date: unknown, owner_id: unknown): string | null
 {
     if (typeof name !== 'string' || name.trim() === '' || name.length < 5)
     {
@@ -21,17 +21,17 @@ function validateProject(name: unknown, description: unknown, status: unknown, s
         return 'wrong status';
     }
 
-    if (typeof startDate !== 'string' || startDate.trim() === '')
+    if (typeof start_date !== 'string' || start_date.trim() === '')
     {
         return 'wrong start date';
     }
 
-    if (typeof endDate !== 'string' || endDate.trim() === '')
+    if (typeof end_date !== 'string' || end_date.trim() === '')
     {
         return 'wrong end date';
     }
 
-    if (typeof ownerId !== 'number' || !Number.isInteger(ownerId) || ownerId <= 0)
+    if (typeof owner_id !== 'number' || !Number.isInteger(owner_id) || owner_id <= 0)
     {
         return 'wrong owner id';
     }
@@ -41,7 +41,7 @@ function validateProject(name: unknown, description: unknown, status: unknown, s
 
 projectRouterDb.get('/', async (req: Request, res: Response) => 
 {
-    const projectList = await db.all<ProjectDb[]>('SELECT id, name, description, status, startDate, endDate, ownerId FROM projects ORDER BY ownerId');
+    const projectList = await db.all<ProjectDb[]>('SELECT id, name, description, status, start_date, end_date, owner_id FROM projects ORDER BY name');
     res.json(projectList);
 });
 
@@ -55,7 +55,7 @@ projectRouterDb.get('/:id', async (req: Request, res: Response) =>
         res.status(400).json({error: `wrong id requested: ${req.params.id}`});
     }else 
     {
-        const project = await db .get<ProjectDb>('SELECT id, name, description, status, startDate, endDate, ownerId FROM projects WHERE id = ?', num);
+        const project = await db .get<ProjectDb>('SELECT id, name, description, status, start_date, end_date, owner_id FROM projects WHERE id = ?', num);
         if(!project)
         {
             res.status(404).json({error: `project with id ${num} not found`});
@@ -68,9 +68,9 @@ projectRouterDb.get('/:id', async (req: Request, res: Response) =>
 
 projectRouterDb.post('/', async (req: Request, res: Response) =>
 {
-    const{name, description, status, startDate, endDate, ownerId} = req.body;
+    const{name, description, status, start_date, end_date, owner_id} = req.body;
 
-    const error = validateProject(name, description, status, startDate, endDate, ownerId);
+    const error = validateProject(name, description, status, start_date, end_date, owner_id);
 
     if (error)
 {
@@ -78,11 +78,9 @@ projectRouterDb.post('/', async (req: Request, res: Response) =>
     return;
 }
 
- const cleanedname = name.trim();
-
     const project = await db.get<ProjectDb>(
-        'INSERT INTO projects (name, description, status, startDate, endDate, ownerId) VALUES (?, ?, ?, ?, ?) RETURNING id, name, description, status, startDate, endDate, ownerId',
-        [name, description, status, startDate, endDate, ownerId]
+        'INSERT INTO projects (name, description, status, start_date, end_date, owner_id) VALUES (?, ?, ?, ?, ?, ?) RETURNING id, name, description, status, start_date, end_date, owner_id',
+        [name, description, status, start_date, end_date, owner_id]
     );
 
     res.status(201).json(project);
@@ -100,17 +98,15 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
         return;
     }
 
-    const {name, description, status, startDate, endDate, ownerId} = req.body;
+    const {name, description, status, start_date, end_date, owner_id} = req.body;
 
-    const error = validateProject(name, description, status, startDate, endDate, ownerId);
+    const error = validateProject(name, description, status, start_date, end_date, owner_id);
 
     if (error)
     {
         res.status(400).json({ error });
         return;
     }
-
-    const cleanedprojectname = name.trim();
 
     const updatedproject = await db.get<ProjectDb>(
         `
@@ -119,13 +115,13 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
             name = ?,
             description = ?,
             status = ?,
-            startDate = ?,
-            endDate = ?,
-            ownerId = ?
+            start_date = ?,
+            end_date = ?,
+            owner_id = ?
         WHERE id = ?
-        RETURNING id, name, description, status, startDate, endDate, ownerId
+        RETURNING id, name, description, status, start_date, end_date, owner_id
         `,
-        [name, description, status, startDate, endDate, ownerId, num]);
+        [name, description, status, start_date, end_date, owner_id, num]);
         
         if (!updatedproject)
     {
@@ -152,7 +148,7 @@ projectRouterDb.delete('/:id', async (req: Request, res: Response) =>
 
     const project = await db.get<ProjectDb>(
         `
-        SELECT name, description, status, startDate, endDate, ownerId
+        SELECT name, description, status, start_date, end_date, owner_id
         FROM projects
         WHERE id = ?
         `,
