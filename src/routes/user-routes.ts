@@ -53,7 +53,10 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
         return 'wrong password';
     }
 
-    
+    if(typeof role !== 'string' || role.trim() === '')
+    {
+        return 'wrong role';
+    }
 };
 
 userRouterDb.post('/', async (req: Request, res: Response) =>
