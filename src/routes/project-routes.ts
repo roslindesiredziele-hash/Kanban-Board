@@ -1,11 +1,11 @@
 function validateProject(name: unknown, description: unknown, status: unknown, startDate: unknown, endDate: unknown, ownerId: unknown): string | null
 {
-    if (typeof name !== 'string' || name.trim() === '')
+    if (typeof name !== 'string' || name.trim() === '' || name.length < 5)
     {
         return 'wrong project name';
     }
 
-    if (typeof description !== 'string' || description.trim() === '')
+    if (typeof description !== 'string' || description.trim() === '' || description.length < 20)
     {
         return 'wrong description';
     }
