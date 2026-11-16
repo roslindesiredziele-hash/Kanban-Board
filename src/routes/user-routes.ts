@@ -1,7 +1,6 @@
-import { Router, Request, Response, response } from "express";
+import { Router, Request, Response} from "express";
 import { UserDb } from "../models/user_model.ts";
 import { db } from "../db.ts";
-import { request } from "node:http";
 
 export const userRouterDb = Router();
 
@@ -172,7 +171,7 @@ userRouterDb.delete('/:id', async (req: Request, res: Response) =>
         return;
     }
 
-    await db.run('DELETE FROM users WHERE id = ?',);
+    await db.run('DELETE FROM users WHERE id = ?', num);
 
     console.log(`User with id ${num} deleted successfully`);
      res.json({message: `user with id ${num} deleted successfully`});
