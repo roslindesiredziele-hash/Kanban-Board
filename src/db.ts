@@ -28,10 +28,10 @@ await db.exec(`
     description TEXT NOT NULL,
     status TEXT NOT NULL,
     start_date TEXT NOT NULL,
-    end_DATE TEXT NOT NULL,
+    end_date TEXT NOT NULL,
     owner_id INTEGER NOT NULL,
 
-    FOREIGN KEY (owner_id) REFERENCES users(id)
+    FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
     )
     `)
 
@@ -42,8 +42,8 @@ await db.exec(`
     role TEXT NOT NULL,
 
     PRIMARY KEY (project_id, user_id),
-    
-    FOREIGN KEY (project_id) REFERENCES projects(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+
+    FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
     )
     `)
