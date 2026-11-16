@@ -100,5 +100,11 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
 
     const error = validateUser(name, email, username, passwordHash, role);
 
+    if (error)
+    {
+        res.status(400).json({ error });
+        return;
+    }
+
     
 });
