@@ -57,6 +57,8 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
     {
         return 'wrong role';
     }
+
+    return null;
 };
 
 userRouterDb.post('/', async (req: Request, res: Response) =>
