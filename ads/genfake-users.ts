@@ -9,6 +9,8 @@ const adminCount = Math.floor(count * 0.10);
 const managerCount = Math.floor(count * 0.30);
 const memberCount = count - adminCount - managerCount;
 
+const passwordHash = await bcrypt.hash('Password123!', 10);
+
 function generateRole(): Role
 {
     const random = faker.number.int({
