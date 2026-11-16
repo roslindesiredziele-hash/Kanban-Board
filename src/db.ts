@@ -30,6 +30,7 @@ await db.exec(`
     start_date TEXT NOT NULL,
     end_date TEXT NOT NULL,
     owner_id INTEGER NOT NULL,
+    CHECK (end_date >= start_date),
 
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE RESTRICT
     )
