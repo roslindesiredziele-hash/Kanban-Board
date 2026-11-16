@@ -13,3 +13,35 @@ const passwordHash = await bcrypt.hash('Password123!', 10);
 
 let index = 0;
 
+async function createUser(role: Role, index: number)
+{
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+
+    const username =
+        `${firstName.toLowerCase()}.${lastName.toLowerCase()}_${index}`;
+
+    const email =
+        `${username}@example.com`;
+
+    await db.run(
+        `
+        INSERT INTO users
+        (
+            name,
+            email,
+            username,
+            passwordHash,
+            role
+        )
+        VALUES (?, ?, ?, ?, ?)
+        `,
+        [
+            `${firstName} ${lastName}`,
+            email,
+            username,
+            passwordHash,
+            role
+        ]
+    );
+}
