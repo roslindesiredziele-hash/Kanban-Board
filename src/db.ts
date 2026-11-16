@@ -25,7 +25,7 @@ await db.exec(`
     user_id INTEGER NOT NULL,
     FOREIGN KEY (project_id) REFERENCE projects(id),
     FOREIGN KEY (user_id) REFERENCE users(id),
-    role TEXT NOT NIULL
+    role TEXT NOT NULL
     )
     `)
 
@@ -34,9 +34,10 @@ await db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    status: TEXT NOT NULL,
+    status TEXT NOT NULL,
     start_date TEXT NOT NULL,
     end_DATE TEXT NOT NULL,
+    
     FOREIGN KEY (owner_id) REFERENCE users(id)
     )
     `)
