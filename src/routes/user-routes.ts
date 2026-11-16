@@ -53,7 +53,7 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
         return 'wrong password';
     }
 
-    if(typeof role !== 'string' || role.trim() === '')
+    if(typeof role !== 'string' || role.trim() === '' || username.length < 3 || username.length > 20 || !/^[A-Za-z0-9._-]+$/.test(username))
     {
         return 'wrong role';
     }
