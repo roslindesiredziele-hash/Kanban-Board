@@ -4,6 +4,41 @@ import { db } from "../db.ts";
 
 export const projectRouterDb = Router();
 
+function validateProject(name: unknown, description: unknown, status: unknown, startDate: unknown, endDate: unknown, ownerId: unknown): string | null
+{
+    if (typeof name !== 'string' || name.trim() === '' || name.length < 5)
+    {
+        return 'wrong project name';
+    }
+
+    if (typeof description !== 'string' || description.trim() === '' || description.length < 20)
+    {
+        return 'wrong description';
+    }
+
+    if (status !== 'Active' && status !== 'Pending' && status !== 'Completed' && status !== 'Archived')
+    {
+        return 'wrong status';
+    }
+
+    if (typeof startDate !== 'string' || startDate.trim() === '')
+    {
+        return 'wrong start date';
+    }
+
+    if (typeof endDate !== 'string' || endDate.trim() === '')
+    {
+        return 'wrong end date';
+    }
+
+    if (typeof ownerId !== 'number' || !Number.isInteger(ownerId) || ownerId <= 0)
+    {
+        return 'wrong owner id';
+    }
+
+    return null;
+}
+
 projectRouterDb.get('/', async (req: Request, res: Response) => 
 {
     const projectList = await db.all<ProjectDb[]>('SELECT id, name, email, projectname, role FROM projects ORDER BY role');
@@ -30,36 +65,6 @@ projectRouterDb.get('/:id', async (req: Request, res: Response) =>
         }
     }
 });
-
-function validateproject(name: unknown, email: unknown, projectname: unknown, passwordHash: unknown, role: unknown): string | null
-{
-    if(typeof name !== 'string' || name.trim() === '')
-    {
-        return 'wrong name';
-    }
-
-    if(typeof email !== 'string' || email.trim() === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-    {
-        return 'wrong email';
-    }
-    
-    if(typeof projectname !== 'string' || projectname.trim() === '' || projectname.length < 3  || projectname.length > 20 || !/^[A-Za-z0-9._-]+$/.test(projectname))
-    {
-        return 'wrong projectname';
-    }
-
-    if(typeof passwordHash !== 'string' || passwordHash.trim() === '')
-    {
-        return 'wrong password hash';
-    }
-
-    if(role !== 'Administrator' && role !== 'Manager' && role !== 'Member')
-    {
-        return 'wrong role';
-    }
-
-    return null;
-};
 
 projectRouterDb.post('/', async (req: Request, res: Response) =>
 {
@@ -185,42 +190,3 @@ projectRouterDb.delete('/', async (req: Request, res: Response) =>
     console.log('All projects deleted successfully');
     res.json({message:'All projects deleted successfully'});
 });
-
-
-
-
-
-function validateProject(name: unknown, description: unknown, status: unknown, startDate: unknown, endDate: unknown, ownerId: unknown): string | null
-{
-    if (typeof name !== 'string' || name.trim() === '' || name.length < 5)
-    {
-        return 'wrong project name';
-    }
-
-    if (typeof description !== 'string' || description.trim() === '' || description.length < 20)
-    {
-        return 'wrong description';
-    }
-
-    if (status !== 'Active' && status !== 'Pending' && status !== 'Completed' && status !== 'Archived')
-    {
-        return 'wrong status';
-    }
-
-    if (typeof startDate !== 'string' || startDate.trim() === '')
-    {
-        return 'wrong start date';
-    }
-
-    if (typeof endDate !== 'string' || endDate.trim() === '')
-    {
-        return 'wrong end date';
-    }
-
-    if (typeof ownerId !== 'number' || !Number.isInteger(ownerId) || ownerId <= 0)
-    {
-        return 'wrong owner id';
-    }
-
-    return null;
-}
