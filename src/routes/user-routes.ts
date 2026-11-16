@@ -31,6 +31,11 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
     }
 });
 
+function validateUser(name: unknown, email: unknown, username: unknown, passwordHash: unknown, role: unknown)
+{
+    
+}
+
 userRouterDb.post('/', async (req: Request, res: Response) =>
 {
     const{name, email, username, passwordHash, role} = req.body;
