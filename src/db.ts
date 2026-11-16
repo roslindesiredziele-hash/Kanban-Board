@@ -25,8 +25,8 @@ await db.exec(`
     name TEXT NOT NULL,
     description TEXT NOT NULL,
     status: TEXT NOT NULL,
-    start_date DATE NOT NULL,
-    end_DATE DATE NOT NULL
-    FOREIGHN KEY (owner_id) REFERENCE PRIMARY KEY(users)
+    start_date TEXT NOT NULL,
+    end_DATE TEXT NOT NULL,
+    FOREIGN KEY (owner_id) REFERENCE users(id)
     )
     `)
