@@ -43,7 +43,10 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
         return 'wrong email';
     }
     
-    
+    if(typeof username !== 'string' || username.trim() === '')
+    {
+        return 'wrong username';
+    }
 };
 
 userRouterDb.post('/', async (req: Request, res: Response) =>
