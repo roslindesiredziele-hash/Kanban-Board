@@ -47,6 +47,13 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
     {
         return 'wrong username';
     }
+
+    if(typeof passwordHash !== 'string' || passwordHash.trim() === '')
+    {
+        return 'wrong password';
+    }
+
+    
 };
 
 userRouterDb.post('/', async (req: Request, res: Response) =>
