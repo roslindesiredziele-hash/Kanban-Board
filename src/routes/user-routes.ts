@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import { UserDb } from "../models/user_model.ts";
 import { db } from "../db.ts";
+import { addUncaughtExceptionCaptureCallback } from "node:process";
 
 export const userRouterDb = Router();
 
@@ -64,6 +65,9 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
 userRouterDb.post('/', async (req: Request, res: Response) =>
 {
     const{name, email, username, passwordHash, role} = req.body;
+    const cleanedUsername = username.trim();
+
+    validateUser(name, email, cleanedUsername, passwordHash, role)
 
     const usrs = await db.get<UserDb>(
         'INSERT INTO users (name, email, username, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, username, passwordHash, role',
