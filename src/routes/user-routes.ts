@@ -137,3 +137,43 @@ userRouterDb.put('/:id', async (req: Request, res: Response) =>
 
     res.json(updatedUser);
 });
+
+userRouterDb.delete('/:id', async (req: Request, res: Response) =>
+{
+    const num = Number(req.params.id);
+
+    if (!Number.isInteger(num) || num <= 0)
+    {
+        res.status(400).json({
+            error: `wrong id requested: ${req.params.id}`
+        });
+        return;
+    }
+
+    const user = await db.get<UserDb>(
+        `
+        SELECT
+            id,
+            name,
+            email,
+            username,
+            role
+        FROM users
+        WHERE id = ?
+        `,
+        num
+    );
+
+    if (!user)
+    {
+        res.status(404).json({
+            error: `user with id ${num} not found`
+        });
+        return;
+    }
+
+    await db.run('DELETE FROM users WHERE id = ?',);
+
+    console.log(`User with id ${num} deleted successfully`);
+     res.json({message: `user with id ${num} deleted successfully`});
+});
