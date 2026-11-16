@@ -180,21 +180,9 @@ userRouterDb.delete('/:id', async (req: Request, res: Response) =>
 
 userRouterDb.delete('/', async (req: Request, res: Response) =>
 {
-    await db.run(
-        'DELETE FROM users'
-    );
+    await db.run('DELETE FROM users');
 
-    await db.run(
-        `DELETE FROM sqlite_sequence
-         WHERE name = 'users'`
-    );
-
-    console.log(
-        'All users deleted successfully'
-    );
-
-    res.json({
-        message:
-            'All users deleted successfully'
-    });
+    await db.run(`DELETE FROM sqlite_sequence WHERE name = 'users'`);
+    console.log('All users deleted successfully');
+    res.json({message:'All users deleted successfully'});
 });
