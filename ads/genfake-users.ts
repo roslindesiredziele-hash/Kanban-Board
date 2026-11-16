@@ -45,3 +45,11 @@ async function createUser(role: Role, index: number)
         ]
     );
 }
+
+for (let i = 0; i < adminCount; i++)
+{
+    await createUser(
+        'Administrator',
+        index++
+    );
+}
