@@ -50,10 +50,10 @@ function validateUser(name: unknown, email: unknown, username: unknown, password
 
     if(typeof passwordHash !== 'string' || passwordHash.trim() === '')
     {
-        return 'wrong password';
+        return 'wrong password hash';
     }
 
-    if(typeof role !== 'string' || role.trim() === '' || username.length < 3 || username.length > 20 || !/^[A-Za-z0-9._-]+$/.test(username))
+    if(role !== 'Administrator' && role !== 'Manager' && role !== 'Member')
     {
         return 'wrong role';
     }
