@@ -17,7 +17,7 @@ await db.exec(`
     email TEXT NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
     passwordHash TEXT NOT NULL,
-    role TEXT NOT NULL
+    role TEXT NOT NULL CHECK (role IN ('Administrator', 'Manager', 'Member'))
     )
     `)
 
@@ -26,7 +26,7 @@ await db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     description TEXT NOT NULL,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL CHECK (status IN ('Active', 'Pending', 'Completed', 'Archived')),
     start_date TEXT NOT NULL,
     end_date TEXT NOT NULL,
     owner_id INTEGER NOT NULL,
