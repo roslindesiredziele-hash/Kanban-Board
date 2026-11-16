@@ -9,6 +9,7 @@ export interface Project
 {
     name: string;
     description: string;
+    status: ProjectStatus;
     startDate: Date;
     endDate: Date;
     ownerId: number;

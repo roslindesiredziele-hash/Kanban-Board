@@ -18,3 +18,15 @@ await db.exec(`
     role TEXT NOT NULL
     )
     `)
+
+await db.exec(`
+    CREATE TABLE IF NOT EXISTS projects(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    status: TEXT NOT NULL,
+    start_date DATE NOT NULL,
+    end_DATE DATE NOT NULL
+    FOREIGHN KEY (owner_id) REFERENCE PRIMARY KEY(users)
+    )
+    `)
