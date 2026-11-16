@@ -21,7 +21,8 @@ await db.exec(`
 
 await db.exec(`
     CREATE TABLE IF NOT EXISTS project_members(
-    
+    project_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
     FOREIGN KEY (project_id) REFERENCE projects(id),
     FOREIGN KEY (user_id) REFERENCE users(id),
     role TEXT NOT NIULL
