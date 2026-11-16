@@ -1,4 +1,4 @@
-type ProjectMemberRole =
+export type ProjectMemberRole =
     | 'Owner'
     | 'Manager'
     | 'Member';
