@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { db } from '../src/db.ts';
 import { Role } from '../src/models/user_model.ts';
+import bcrypt from 'bcrypt';
 
 const count = Number(process.argv[2]) || 5;
 
