@@ -25,6 +25,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "dev": "tsx watch src/server.ts",
+    "gfu": "tsx ads/genfake-users.ts",
     "start": "tsc src/server.ts"
   },
   "dependencies": {
