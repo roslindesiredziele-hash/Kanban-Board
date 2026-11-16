@@ -29,6 +29,7 @@
     "start": "tsc src/server.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.6.0",
     "express": "^5.3.0",
     "morgan": "^1.12.1",
     "sqlite": "^5.1.1",
