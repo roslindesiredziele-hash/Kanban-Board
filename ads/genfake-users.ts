@@ -29,20 +29,16 @@ function generateRole(): Role
     return 'Member';
 }
 
-for (let i = 0; i < count; i++)
+async function createUser(role: Role, index: number)
 {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
 
     const username =
-        `${firstName.toLowerCase()}.${lastName.toLowerCase()}_${i}`;
+        `${firstName.toLowerCase()}.${lastName.toLowerCase()}_${index}`;
 
     const email =
         `${username}@example.com`;
-
-    const role = generateRole();
-
-    const passwordHash = await bcrypt.hash('Password123!', 10);
 
     await db.run(
         `
@@ -60,7 +56,7 @@ for (let i = 0; i < count; i++)
             `${firstName} ${lastName}`,
             email,
             username,
-            passwordHash,,
+            passwordHash,
             role
         ]
     );
