@@ -1,7 +1,13 @@
+export type ProjectStatus =
+    | 'Active'
+    | 'pending'
+    | 'Completed'
+    | 'Archieved';
+
+
 export interface Project
 {
     name: string;
-    status: string;
     description: string;
     startDate: Date;
     endDate: Date;
