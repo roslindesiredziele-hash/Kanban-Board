@@ -1,8 +1,8 @@
 export type ProjectStatus =
     | 'Active'
-    | 'pending'
+    | 'Pending'
     | 'Completed'
-    | 'Archieved';
+    | 'Archived';
 
 
 export interface Project
