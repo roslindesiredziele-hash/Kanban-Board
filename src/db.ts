@@ -37,7 +37,7 @@ await db.exec(`
     status TEXT NOT NULL,
     start_date TEXT NOT NULL,
     end_DATE TEXT NOT NULL,
-    
+    owner_id INTEGER NOT NULL
     FOREIGN KEY (owner_id) REFERENCE users(id)
     )
     `)
