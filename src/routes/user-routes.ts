@@ -177,3 +177,24 @@ userRouterDb.delete('/:id', async (req: Request, res: Response) =>
     console.log(`User with id ${num} deleted successfully`);
      res.json({message: `user with id ${num} deleted successfully`});
 });
+
+userRouterDb.delete('/', async (req: Request, res: Response) =>
+{
+    await db.run(
+        'DELETE FROM users'
+    );
+
+    await db.run(
+        `DELETE FROM sqlite_sequence
+         WHERE name = 'users'`
+    );
+
+    console.log(
+        'All users deleted successfully'
+    );
+
+    res.json({
+        message:
+            'All users deleted successfully'
+    });
+});
