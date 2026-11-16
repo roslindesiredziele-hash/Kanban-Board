@@ -76,7 +76,7 @@ userRouterDb.post('/', async (req: Request, res: Response) =>
  const cleanedUsername = username.trim();
 
     const usrs = await db.get<UserDb>(
-        'INSERT INTO users (name, email, cleanedUsername, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, cleanedUsername, role',
+        'INSERT INTO users (name, email, username, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, username, role',
         [name, email, cleanedUsername, passwordHash, role]
     );
 
