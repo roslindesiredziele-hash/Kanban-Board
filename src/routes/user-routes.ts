@@ -31,10 +31,20 @@ userRouterDb.get('/:id', async (req: Request, res: Response) =>
     }
 });
 
-function validateUser(name: unknown, email: unknown, username: unknown, passwordHash: unknown, role: unknown)
+function validateUser(name: unknown, email: unknown, username: unknown, passwordHash: unknown, role: unknown): string | null
 {
+    if(typeof name !== 'string' || name.trim() === '')
+    {
+        return 'wrong name';
+    }
+
+    if(typeof email !== 'string' || email.trim() === '')
+    {
+        return 'wrong email';
+    }
     
-}
+    
+};
 
 userRouterDb.post('/', async (req: Request, res: Response) =>
 {
