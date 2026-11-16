@@ -84,7 +84,7 @@ userRouterDb.post('/', async (req: Request, res: Response) =>
     res.status(201).json(user);
 });
 
-userRouterDb.put('/', async (req: Request, res: Response) =>
+userRouterDb.put('/:id', async (req: Request, res: Response) =>
 {
     const num = Number(req.params.id);
 
