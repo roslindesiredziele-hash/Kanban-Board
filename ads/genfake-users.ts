@@ -70,3 +70,9 @@ for (let i = 0; i < memberCount; i++)
     );
 }
 
+console.log(`
+Generated:
+- ${adminCount} Administrators
+- ${managerCount} Managers
+- ${memberCount} Members
+`);
