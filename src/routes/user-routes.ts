@@ -106,5 +106,7 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
         return;
     }
 
+    const cleanedUsername = username.trim();
+
     
 });
