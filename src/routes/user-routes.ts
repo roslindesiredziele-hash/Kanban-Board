@@ -108,5 +108,22 @@ userRouterDb.put('/', async (req: Request, res: Response) =>
 
     const cleanedUsername = username.trim();
 
-    
+    const updatedUser = await db.get<UserDb>(
+        `
+        UPDATE users
+        SET
+            name = ?,
+            email = ?,
+            username = ?,
+            passwordHash = ?,
+            role = ?
+        WHERE id = ?
+        RETURNING
+            id,
+            name,
+            email,
+            username,
+            role
+        `,
+        [name, email, cleanedUsername, passwordHash, role, num]);
 });
