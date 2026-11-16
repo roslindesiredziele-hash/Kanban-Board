@@ -4,22 +4,38 @@ import { Role } from '../src/models/user_model.ts';
 
 const count = Number(process.argv[2]) || 10;
 
-const roles: Role[] = [
-    'Administrator',
-    'Manager',
-    'Member'
-];
-
-for(let i = 0; i < count; i++)
+function generateRole(): Role
 {
+    const random = faker.number.int({
+        min: 1,
+        max: 100
+    });
+
+    if (random <= 10)
+    {
+        return 'Administrator';
+    }
+
+    if (random <= 40)
+    {
+        return 'Manager';
+    }
+
+    return 'Member';
+}
+
+for (let i = 0; i < count; i++)
+{
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+
     const username =
-        `${faker.internet.username()}_${i}`;
+        `${firstName.toLowerCase()}.${lastName.toLowerCase()}_${i}`;
 
     const email =
         `${username}@example.com`;
 
-    const role =
-        faker.helpers.arrayElement(roles);
+    const role = generateRole();
 
     await db.run(
         `
@@ -34,7 +50,7 @@ for(let i = 0; i < count; i++)
         VALUES (?, ?, ?, ?, ?)
         `,
         [
-            faker.person.fullName(),
+            `${firstName} ${lastName}`,
             email,
             username,
             'fake_password_hash',
@@ -43,4 +59,4 @@ for(let i = 0; i < count; i++)
     );
 }
 
-console.log(`${count} fake users generated.`);
+console.log(`${count} fake users generated successfully.`);
