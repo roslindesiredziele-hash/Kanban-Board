@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^10.6.0",
+    "bcrypt": "^6.0.0",
     "express": "^5.3.0",
     "morgan": "^1.12.1",
     "sqlite": "^5.1.1",
@@ -37,9 +38,11 @@
   },
   "allowScripts": {
     "sqlite3@6.0.1": true,
-    "esbuild@0.28.2": true
+    "esbuild@0.28.2": true,
+    "bcrypt@6.0.0": true
   },
   "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
     "@types/node": "^26.6.6",
