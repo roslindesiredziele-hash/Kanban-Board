@@ -1,7 +1,7 @@
 export type Role =
     'Administrator'
     'Manager'
-    'Member'
+    'Member';
     
 export interface User
 {
