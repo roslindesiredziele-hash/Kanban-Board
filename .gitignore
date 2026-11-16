@@ -1,2 +1,11 @@
-node_modules
+# Dependencies
+node_modules/
+
+# SQLite database
 data/app.sqlite3
+
+# Generated files
+dist/
+
+# Logs
+*.log
