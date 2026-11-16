@@ -68,9 +68,9 @@ projectRouterDb.get('/:id', async (req: Request, res: Response) =>
 
 projectRouterDb.post('/', async (req: Request, res: Response) =>
 {
-    const{name, email, projectname, passwordHash, role} = req.body;
+    const{name, description, status, startDate, endDate, ownerId} = req.body;
 
-    const error = validateproject(name, email, projectname, passwordHash, role);
+    const error = validateProject(name, description, status, startDate, endDate, ownerId);
 
     if (error)
 {
@@ -78,11 +78,11 @@ projectRouterDb.post('/', async (req: Request, res: Response) =>
     return;
 }
 
- const cleanedprojectname = projectname.trim();
+ const cleanedname = name.trim();
 
     const project = await db.get<ProjectDb>(
-        'INSERT INTO projects (name, email, projectname, passwordHash, role) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, projectname, role',
-        [name, email, cleanedprojectname, passwordHash, role]
+        'INSERT INTO projects (name, description, status, startDate, endDate, ownerId) VALUES (?, ?, ?, ?, ?) RETURNING id, name, email, projectname, role',
+        [name, description, status, startDate, endDate, ownerId]
     );
 
     res.status(201).json(project);
@@ -100,9 +100,9 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
         return;
     }
 
-    const {name, email, projectname, passwordHash, role} = req.body;
+    const {name, description, status, startDate, endDate, ownerId} = req.body;
 
-    const error = validateproject(name, email, projectname, passwordHash, role);
+    const error = validateProject(name, description, status, startDate, endDate, ownerId);
 
     if (error)
     {
@@ -110,7 +110,7 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
         return;
     }
 
-    const cleanedprojectname = projectname.trim();
+    const cleanedprojectname = name.trim();
 
     const updatedproject = await db.get<ProjectDb>(
         `
@@ -129,7 +129,7 @@ projectRouterDb.put('/:id', async (req: Request, res: Response) =>
             projectname,
             role
         `,
-        [name, email, cleanedprojectname, passwordHash, role, num]);
+        [name, description, status, startDate, endDate, ownerId, num]);
         
         if (!updatedproject)
     {
