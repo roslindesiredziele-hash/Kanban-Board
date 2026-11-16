@@ -11,7 +11,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static("./public"));
 
-app.use('/api/users', userRouterDb, projectRouterDb);
+app.use('/api/users', userRouterDb);
+app.use('/api/projects', projectRouterDb);
 
 app.listen(port, () =>
 {
